@@ -1,6 +1,7 @@
 import tkinter
 import Database
 root = tkinter.Tk()
+root.title("Homework Time (Pre-release UI)")
 
 current_row = 0
 heading = tkinter.Label(root, text = "Homework Time", padx = 100, pady = 20, font = ("Arial", 30), bg = "yellow", fg = "blue")
@@ -34,7 +35,7 @@ search_bar.insert(0, "Search Course Code")
 search_button = tkinter.Button(root, text = "Search", command = search)
 search_button.grid(row = 1, column = 1)
 result_heading = tkinter.Label(root, text = "Homework                               \
-                                                                                            Estimated Time(minutes)")
+                                                                            Estimated Time(minutes)")
 result_heading.grid(row = 2, column = 0)
 
 
