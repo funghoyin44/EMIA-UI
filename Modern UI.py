@@ -7,7 +7,7 @@ from PIL import Image
 root = customtkinter.CTk()
 root.geometry("1280x720")
 root.title("Homework Time Client (Beta)")
-root.attributes("-alpha", 0.95)
+root.attributes("-alpha", 0.90)
 customtkinter.set_appearance_mode("dark")
 customIconFont = customtkinter.CTkFont(family= "Calibri", size = 40, weight = "bold")
 customButtonFont = customtkinter.CTkFont(family= "Calibri", size = 30, weight = "bold")
