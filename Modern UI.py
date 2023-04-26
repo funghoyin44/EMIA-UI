@@ -16,7 +16,9 @@ customButtonColour = "#0d5ee0"
 customTextFont = customtkinter.CTkFont(family= "Calibri", size = 30, weight = "bold")
 customTextFontSmall = customtkinter.CTkFont(family= "Calibri", size = 20, weight = "bold")
 result_list = []
-
+homework_choice_list = []
+login = User
+success_login = False
 
 #Logic
 def search():
@@ -54,6 +56,30 @@ def clear_result():
         result_list[i].destroy()
     result_list = []        
 
+def logged_in_or_not():
+    clear_result()
+    result_frame.destroy()
+    if success_login == True:
+        buildUploadFrame()
+    else:
+        buildLoginFrame()
+
+def try_login():
+    username = username_entry.get()
+    password = password_entry.get()
+    global login
+    global success_login
+    for i in user_list:
+        if i.get_username() == username:
+            if i.check_password(password):
+                login = i
+                success_login = True
+                logged_in_or_not()
+                return None
+    invalid_login_tag = customtkinter.CTkLabel(login_frame, text = "Invalid Username or Password!", font = customTextFontSmall, text_color = "red", width = 100, height = 30)
+    invalid_login_tag.pack()
+    invalid_login_tag.place(x = 350, y = 550)
+
 def buildSearchFrame():
     global result_frame
     global search_bar
@@ -74,15 +100,42 @@ def buildSearchFrame():
     notice_bar.pack()
     notice_bar.place(x = 0, y = 90)
 
+def buildLoginFrame():
+    global username_entry
+    global password_entry
+    global login_frame
+    login_frame = customtkinter.CTkFrame(root, width = 980, height = 720)
+    login_frame.pack()
+    login_frame.place(x = 300, y = 0)
+    login_tag = customtkinter.CTkLabel(login_frame, text = "Login", font = customTextFont, width = 200, height = 80)
+    login_tag.pack()
+    login_tag.place(x = 370, y = 150)
+    username_tag = customtkinter.CTkLabel(login_frame, text = "Username:", font = customTextFontSmall, width = 150, height = 60)
+    username_tag.pack()
+    username_tag.place(x = 250, y = 250)
+    username_entry = customtkinter.CTkEntry(login_frame, width = 200, height = 40)
+    username_entry.pack()
+    username_entry.place(x = 380, y = 260)
+    password_tag = customtkinter.CTkLabel(login_frame, text = "Password:", font = customTextFontSmall, width = 150, height = 60)
+    password_tag.pack()
+    password_tag.place(x = 250, y = 350)
+    password_entry = customtkinter.CTkEntry(login_frame, width = 200, height = 40)
+    password_entry.pack()
+    password_entry.place(x = 380, y = 360)
+    login_button = customtkinter.CTkButton(login_frame, text = "Login", width = 200, height = 50, fg_color = customButtonColour, font = customButtonFont, command = try_login)
+    login_button.pack()
+    login_button.place(x = 380, y = 450)
+
 def buildUploadFrame():
-    global result_list
     global course_chosen
-    clear_result()
-    result_frame.destroy()
+    global upload_frame
+    global course_choice
+    global homework_chosen
     upload_frame = customtkinter.CTkFrame(root, width = 980, height = 720, corner_radius = 0)
     upload_frame.pack()
     upload_frame.place(x = 300, y = 0)
-    top_bar = customtkinter.CTkLabel(upload_frame, text = "Result Upload\t\t\t\t\t Welcome User", font = customTextFont, fg_color = "grey", width = 980, height = 60)
+
+    top_bar = customtkinter.CTkLabel(upload_frame, text = "Result Upload\t\t\t\t Welcome {} {}".format(login.get_first_name(), login.get_last_name()), font = customTextFont, fg_color = "grey", width = 980, height = 60)
     top_bar.pack()
     top_bar.place(x = 0, y = 0)
     title = customtkinter.CTkLabel(upload_frame, text = "Homework Detail", font = customTextFont, width = 980, height = 60)
@@ -93,8 +146,8 @@ def buildUploadFrame():
     course_tag.place(x = 160, y = 200)
     course_chosen = customtkinter.StringVar(upload_frame)
     course_chosen.set(course_list[0])
-    course_choice = customtkinter.StringVar(upload_frame)
-    course_choice = customtkinter.CTkOptionMenu(upload_frame, width = 200, height = 40, variable = course_chosen, values = course_list, command = update_homework_choice_list())
+    update_homework_choice_list(course_chosen.get())
+    course_choice = customtkinter.CTkOptionMenu(upload_frame, width = 200, height = 40, variable = course_chosen, values = course_list, command = update_homework_choice_list)
     course_choice.pack()
     course_choice.place(x = 250, y = 200)
 
@@ -115,15 +168,30 @@ def buildUploadFrame():
     time_entry.pack()
     time_entry.place(x = 295, y = 300)
 
+    date_tag = customtkinter.CTkLabel(upload_frame, text = "Date:", font=customTextFontSmall, width = 100, height = 40)
+    date_tag.pack()
+    date_tag.place(x = 550, y = 300)
+    date_entry = customtkinter.CTkEntry(upload_frame, width = 200, height = 40)
+    date_entry.pack()
+    date_entry.place(x = 650, y = 300)
+    
+    submit_button = customtkinter.CTkButton(upload_frame, text = "Submit", fg_color = customButtonColour, font = customButtonFont, width = 200, height = 50, corner_radius = 10, command = submit)
+    submit_button.pack()
+    submit_button.place(x = 390, y = 400)
 
-def update_homework_choice_list():
+
+def update_homework_choice_list(course_chosen):
     global homework_choice_list
-    course = course_chosen.get()
-    homework_choice_list = []
+    course = course_chosen
     for i in homework_list:
         if(course == i.get_course()):
             homework_choice_list.append(i.get_homework_name())
+    
 
+def submit():
+        submitted = customtkinter.CTkLabel(upload_frame, text = "Submitted! Thank You!", font = customTextFontSmall, text_color = "green", width = 100, height = 30)
+        submitted.pack()
+        submitted.place(x = 390, y = 500)
 
 #Left Menu
 left_menu_frame = customtkinter.CTkFrame(root, width = 300, height = 720, corner_radius = 0, fg_color= "grey2")
@@ -138,7 +206,7 @@ search_option = customtkinter.CTkButton(left_menu_frame, text = "Search", \
 search_option.pack()
 search_option.place(x = 0, y = 90)
 report_option = customtkinter.CTkButton(left_menu_frame, text = "Upload", \
-                                        font = customButtonFont, fg_color = customButtonColour, corner_radius = 0, width = 300, height = 70, command = buildUploadFrame)
+                                        font = customButtonFont, fg_color = customButtonColour, corner_radius = 0, width = 300, height = 70, command = logged_in_or_not)
 report_option.pack()
 report_option.place(x = 0, y = 160)
 
