@@ -2,6 +2,8 @@ from Database import *
 import tkinter
 import customtkinter
 from PIL import Image
+from hwtime import *
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 #Initialization
 root = customtkinter.CTk()
@@ -19,6 +21,8 @@ result_list = []
 homework_choice_list = []
 login = User
 success_login = False
+performance_graph_generated = False
+deadline_fighter = False
 
 #Logic
 def search():
@@ -33,7 +37,7 @@ def search():
         if i == code:
             for j in homework_list:
                 if j.get_course() == code:
-                    label = customtkinter.CTkLabel(result_frame, text = "{}\t\t\t\t\t\t{}".format(j.get_homework_name(), j.get_time()), font = customTextFont, fg_color = current_colour, width = 980, height = 50)
+                    label = customtkinter.CTkLabel(result_frame, text = "{}\t\t{}\t\t{}\t\t{}".format(j.get_homework_name(), j.get_suggested_time(), j.get_min_time(), j.get_max_time()), font = customTextFont, fg_color = current_colour, width = 980, height = 50)
                     result_list.append(label)
                     label.pack()
                     label.place(x = 0, y = current_y)
@@ -57,6 +61,19 @@ def clear_result():
     result_list = []        
 
 
+def display_performace_graph():
+    global performance_frame
+    graph_source = customtkinter.CTkImage(Image.open("temp.jpg"), size = (800, 500))
+    label = customtkinter.CTkLabel(performance_frame, image = graph_source)
+    label.pack()
+    label.place(x = 100, y = 150)
+    if deadline_fighter == True:
+        fighter_notice = customtkinter.CTkLabel(performance_frame, text = "You are a deadline fighter!", font = customTextFont, text_color = "red", width = 150, height = 40)
+    else:
+        fighter_notice = customtkinter.CTkLabel(performance_frame, text = "You are not a deadline fighter!", font = customTextFont, text_color = "green", width = 150, height = 40)
+    fighter_notice.pack()
+    fighter_notice.place(x = 330, y = 650)
+
 def try_login():
     username = username_entry.get()
     password = password_entry.get()
@@ -68,6 +85,8 @@ def try_login():
             if i.check_password(password):
                 login = i
                 success_login = True
+                initialize_data(login)
+                checkdeadlinefighter("a")
                 buildSearchFrame()
                 build_left_menu_frame()
                 login_frame.destroy()
@@ -92,7 +111,7 @@ def buildSearchFrame():
     search_button = customtkinter.CTkButton(result_frame, width = 200, height = 50, fg_color= customButtonColour, text = "Search", font= customButtonFont, command = search)
     search_button.pack()
     search_button.place(x = 750, y = 20)
-    notice_bar = customtkinter.CTkLabel(result_frame, text = "Homework\t\t\t\tEstimated Time(Minutes)", font = customTextFont, width = 980, height = 20, fg_color = "grey")
+    notice_bar = customtkinter.CTkLabel(result_frame, text = "Homework\tSuggested\tMin\t\tMax", font = customTextFont, width = 980, height = 20, fg_color = "grey")
     notice_bar.pack()
     notice_bar.place(x = 0, y = 90)
 
@@ -169,12 +188,14 @@ def buildUploadFrame():
     submit_button.place(x = 390, y = 400)
 
 def buildPerformanceFrame():
+    global performance_frame
     performance_frame = customtkinter.CTkFrame(root, width = 980, height = 720)
     performance_frame.pack()
     performance_frame.place(x = 300, y = 0)
     title = customtkinter.CTkLabel(performance_frame, width = 980, height = 60, text = "Performance\t\t\t\t\t\t      ", font = customTextFont, fg_color = "grey")
     title.pack()
     title.place(x = 0, y = 0)
+    display_performace_graph()
 
 def update_homework_choice_list(course_chosen):
     global homework_choice_list
