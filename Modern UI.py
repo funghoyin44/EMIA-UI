@@ -207,12 +207,12 @@ def buildUploadFrame():
     time_entry.pack()
     time_entry.place(x = 295, y = 300)
 
-    date_tag = customtkinter.CTkLabel(upload_frame, text = "Date:", font=customTextFontSmall, width = 100, height = 40)
+    date_tag = customtkinter.CTkLabel(upload_frame, text = "Date(YYYY-MM-DD):", font=customTextFontSmall, width = 100, height = 40)
     date_tag.pack()
     date_tag.place(x = 550, y = 300)
     date_entry = customtkinter.CTkEntry(upload_frame, width = 200, height = 40)
     date_entry.pack()
-    date_entry.place(x = 650, y = 300)
+    date_entry.place(x = 730, y = 300)
     
     submit_button = customtkinter.CTkButton(upload_frame, text = "Submit", fg_color = customButtonColour, font = customButtonFont, width = 200, height = 50, corner_radius = 10, command = submit)
     submit_button.pack()
