@@ -63,7 +63,7 @@ def clear_result():
 
 def display_performace_graph():
     global performance_frame
-    graph_source = customtkinter.CTkImage(Image.open("temp.jpg"), size = (800, 500))
+    graph_source = customtkinter.CTkImage(Image.open("temp.png"), size = (800, 500))
     label = customtkinter.CTkLabel(performance_frame, image = graph_source)
     label.pack()
     label.place(x = 100, y = 150)
