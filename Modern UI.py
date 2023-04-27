@@ -22,14 +22,14 @@ homework_choice_list = []
 login = User
 success_login = False
 performance_graph_generated = False
-deadline_fighter = False
 
 #Logic
-def search():
+def search(code = None):
     global course_list
     global homework_list
     current_y = 125
-    code = search_bar.get().upper()
+    if code == None:
+        code = search_bar.get().upper()
     colour_list = ["#37ed61", "#e66581"]
     current_colour = colour_list[0]
     clear_result()
@@ -37,7 +37,8 @@ def search():
         if i == code:
             for j in homework_list:
                 if j.get_course() == code:
-                    label = customtkinter.CTkLabel(result_frame, text = "{}\t\t{}\t\t{}\t\t{}".format(j.get_homework_name(), j.get_suggested_time(), j.get_min_time(), j.get_max_time()), font = customTextFont, fg_color = current_colour, width = 980, height = 50)
+                    homework_name = str(j.get_homework_name())
+                    label = customtkinter.CTkButton(result_frame, text = "{}\t\t{}\t\t{}\t\t{}".format(j.get_homework_name(), j.get_suggested_time(), j.get_min_time(), j.get_max_time()), font = customTextFont, fg_color = current_colour, width = 980, height = 50, command = lambda:display_homework_graph(j), corner_radius = 0)
                     result_list.append(label)
                     label.pack()
                     label.place(x = 0, y = current_y)
@@ -52,6 +53,33 @@ def search():
     label.pack()
     label.place(x = 0, y = current_y)
 
+def back_to_search(homework):
+    homework_graph_frame.destroy()
+    course = homework.get_course()
+    buildSearchFrame()
+    search(course)
+    
+
+def display_homework_graph(homework):
+    global homework_graph_frame
+    serachcourse_withgraph(homework.get_course().lower(), homework.get_homework_name().lower(), login.get_cga())
+    homework_graph_frame = customtkinter.CTkFrame(root, width = 980, height = 720)
+    homework_graph_frame.pack()
+    homework_graph_frame.place(x = 300, y = 0)
+    title = customtkinter.CTkLabel(homework_graph_frame, text = "{} {}".format(homework.get_course(), homework.get_homework_name()), font = customTextFont, fg_color = "grey", width = 980, height = 60)
+    title.pack()
+    title.place(x = 0, y = 0)
+    exit_button = customtkinter.CTkButton(homework_graph_frame, text = "< Back", fg_color = "grey", bg_color = "grey", font = customButtonFont, command = lambda : back_to_search(homework), width = 200, height  = 50)
+    exit_button.pack()
+    exit_button.place(x = 10, y = 7)
+    homework_graph_source = customtkinter.CTkImage(Image.open("homework.png"), size = (800, 500))
+    homework_graph = customtkinter.CTkLabel(homework_graph_frame, image = homework_graph_source)
+    homework_graph.pack()
+    homework_graph.place(x = 100, y = 150)
+    detail = customtkinter.CTkLabel(homework_graph_frame, text = "Suggested Time: {}\tMin Time: {}\tMax Time: {}".format(homework.get_suggested_time(), homework.get_min_time(), homework.get_max_time()), font = customTextFont, width = 200, height = 40)
+    detail.pack()
+    detail.place(x = 100, y = 650)
+
 def clear_result():
     global result_list
     if len(result_list) == 0:
@@ -60,9 +88,11 @@ def clear_result():
         result_list[i].destroy()
     result_list = []        
 
+   
 
 def display_performace_graph():
     global performance_frame
+    deadline_fighter = checkdeadlinefighter("a")
     graph_source = customtkinter.CTkImage(Image.open("temp.png"), size = (800, 500))
     label = customtkinter.CTkLabel(performance_frame, image = graph_source)
     label.pack()
@@ -86,7 +116,6 @@ def try_login():
                 login = i
                 success_login = True
                 initialize_data(login)
-                checkdeadlinefighter("a")
                 buildSearchFrame()
                 build_left_menu_frame()
                 login_frame.destroy()
@@ -145,6 +174,8 @@ def buildUploadFrame():
     global course_chosen
     global upload_frame
     global course_choice
+    global time_entry
+    global date_entry
     upload_frame = customtkinter.CTkFrame(root, width = 980, height = 720, corner_radius = 0)
     upload_frame.pack()
     upload_frame.place(x = 300, y = 0)
@@ -199,6 +230,7 @@ def buildPerformanceFrame():
 
 def update_homework_choice_list(course_chosen):
     global homework_choice_list
+    global homework_chosen
     course = course_chosen
     for i in range(len(homework_choice_list)):
         homework_choice_list.remove(homework_choice_list[0])
@@ -214,9 +246,14 @@ def update_homework_choice_list(course_chosen):
     
 
 def submit():
-        submitted = customtkinter.CTkLabel(upload_frame, text = "Submitted! Thank You!", font = customTextFontSmall, text_color = "green", width = 100, height = 30)
-        submitted.pack()
-        submitted.place(x = 390, y = 500)
+        if(uploaddata(course_choice.get(), homework_chosen.get(), time_entry.get(), "a", login.get_cga(), date_entry.get()) == True):
+            submitted = customtkinter.CTkLabel(upload_frame, text = "Submitted! Thank You!", font = customTextFontSmall, text_color = "green", width = 100, height = 30)
+            submitted.pack()
+            submitted.place(x = 390, y = 500)
+        else:
+            submitted = customtkinter.CTkLabel(upload_frame, text = "Submission Fail!", font = customTextFontSmall, text_color = "red", width = 100, height = 30)
+            submitted.pack()
+            submitted.place(x = 390, y = 500)
 
 #Left Menu
 def build_left_menu_frame():
