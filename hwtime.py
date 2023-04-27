@@ -50,7 +50,7 @@ def serachcourse_withoutgraph(coursecode,index,cga): #input parameter and return
   print('Maximum of time used in the homework by past data:',df2['time'].max(),'minutes')
   print('Minimum of time used in the homework by past data:',df2['time'].min(),'minutes')
   print('suggest time for you to do the homework:',suggesttime(cga,df2))
-  return df2['time'].max(),df2['time'].min(),suggesttime(cga,df2),True
+  return int(df2['time'].min()), int(df2['time'].max()), int(suggesttime(cga,df2)),True
 
 def serachcourse_withgraph(coursecode,index,cga): #input parameter and return max,min and suggest time,boolean value represent does it find the course and print the graph
   df1=pd.read_csv('hwtime.csv')         #0utput those max min and suggest tme in the UI
