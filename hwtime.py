@@ -29,7 +29,7 @@ def suggesttime(cga,df):    #helper function
   index=df.index[index]
   return round(df['time'][index]*1.1,-1)
 
-def serachcourse(coursecode,index,cga): #input parameter and return max,min and suggest time,boolean value represent does it find the course and print the graph
+def serachcourse_withoutgraph(coursecode,index,cga): #input parameter and return max,min and suggest time,boolean value represent does it find the course and print the graph
   df1=pd.read_csv('hwtime.csv')         #0utput those max min and suggest tme in the UI
   df2=df1[(df1['coursecode']==coursecode)]
   df2=df2[df2['hwindex']==index]
@@ -51,6 +51,27 @@ def serachcourse(coursecode,index,cga): #input parameter and return max,min and 
   print('Minimum of time used in the homework by past data:',df2['time'].min(),'minutes')
   print('suggest time for you to do the homework:',suggesttime(cga,df2))
   return df2['time'].max(),df2['time'].min(),suggesttime(cga,df2),True
+
+def serachcourse_withgraph(coursecode,index,cga): #input parameter and return max,min and suggest time,boolean value represent does it find the course and print the graph
+  df1=pd.read_csv('hwtime.csv')         #0utput those max min and suggest tme in the UI
+  df2=df1[(df1['coursecode']==coursecode)]
+  df2=df2[df2['hwindex']==index]
+  if(df2.empty):
+    print("no such course code or hwindex is found")
+    return False
+  values, base = np.histogram(df2['time'], bins=10)
+  base=base[:-1]
+  cumulative = np.cumsum(values)
+  plt.plot(base,cumulative)
+  #xnew = np.linspace(base.min(), base.max(), 100)      #can smooth the graph(but will change it into non cumulative graph)
+  #power_smooth = make_interp_spline(base,cumulative)(xnew)
+  #plt.plot(xnew, power_smooth)
+  plt.xlabel("time to finish/minutes")
+  ax = plt.gca()
+  ax.get_yaxis().set_visible(False) #clear the yaxis
+  #plt.show()
+  plt.savefig("homework.png")
+
 
 def uploaddata(coursecode,index,hwtime,userid,cga,finishtime): #input all the parameter and things will be upload to csv
   df1=pd.read_csv('hwtime.csv',index_col=[0])                   #return true when success and false when the data already appear(same user and hw and course)
@@ -118,7 +139,7 @@ def checkdeadlinefighter(user): #find the user past data, just input the data na
   #ax = plt.gca()
   #ax.get_yaxis().set_visible(False)
   #plt.show()
-  plt.savefig("temp.jpg")
+  plt.savefig("temp.png")
   """"
   temp=float(1-(sum(percentage)/len(percentage)))
   print('there are averagely',end='')
