@@ -56,7 +56,7 @@ def search(code = None):
 def back_to_search(homework):
     homework_graph_frame.destroy()
     course = homework.get_course()
-    buildSearchFrame()
+    buildSearchFrame(homework.get_course())
     search(course)
     
 
@@ -124,7 +124,7 @@ def try_login():
     invalid_login_tag.pack()
     invalid_login_tag.place(x = 530, y = 550)
 
-def buildSearchFrame():
+def buildSearchFrame(input = None):
     global result_frame
     global search_bar
     result_frame = customtkinter.CTkFrame(root, width = 980, height = 720, corner_radius = 0)
@@ -134,7 +134,10 @@ def buildSearchFrame():
     #label = customtkinter.CTkLabel(result_frame, image = icon_source)
     #label.pack()
     search_bar = customtkinter.CTkEntry(result_frame, width = 700, height = 50, corner_radius = 10, font= customTextFont)
-    search_bar.insert(0, "Search Course Code")
+    if input != None:
+        search_bar.insert(0, str(input))
+    else:
+        search_bar.insert(0, "Search Course Code")
     search_bar.pack()
     search_bar.place(x = 40, y = 20)
     search_button = customtkinter.CTkButton(result_frame, width = 200, height = 50, fg_color= customButtonColour, text = "Search", font= customButtonFont, command = search)
