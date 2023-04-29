@@ -7,8 +7,8 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import os
 
 #Option#
-Developer_Mode = False
-Bypass_Login = False
+Developer_Mode = True
+Bypass_Login = True
 
 
 
