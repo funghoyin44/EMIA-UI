@@ -1,7 +1,7 @@
 from hwtime import *
 
 class Homework:
-    def __init__(self, course:str, homework:str, min_time:int, max_time:int, suggested_time:int, useless:bool):
+    def __init__(self, course:str, homework:str, min_time:int, max_time:int, suggested_time:int, useless:bool, mean:int):
         self.course = course
         self.homework = homework
         self.suggested_time = int(suggested_time)
@@ -57,14 +57,14 @@ user_list = []
 
 def initialize_data(user):
     
-    PHYS3032_PS1 = Homework("PHYS3032", "PS1", 30, 301, 130, True)
-    PHYS3032_PS2 = Homework("PHYS3032", "PS2", 40, 461, 170, True)
-    PHYS3032_PS3 = Homework("PHYS3032", "PS3", 50, 270, 100, True)
-    PHYS3032_PS4 = Homework("PHYS3032", "PS4", 30, 230, 90, True)
-    PHYS3032_PS5 = Homework("PHYS3032", "PS5", 90, 500, 150, True)
-    PHYS3032_PS6 = Homework("PHYS3032", "PS6", 30, 510, 210, True)
-    PHYS3032_PS7 = Homework("PHYS3032", "PS7", 90, 350, 230, True)
-    PHYS3032_PS8 = Homework("PHYS3032", "PS8", 60, 210, 140, True)
+    PHYS3032_PS1 = Homework("PHYS3032", "PS1", 30, 301, 130, True, 100)
+    PHYS3032_PS2 = Homework("PHYS3032", "PS2", 40, 461, 170, True, 300)
+    PHYS3032_PS3 = Homework("PHYS3032", "PS3", 50, 270, 100, True, 400)
+    PHYS3032_PS4 = Homework("PHYS3032", "PS4", 30, 230, 90, True, 131)
+    PHYS3032_PS5 = Homework("PHYS3032", "PS5", 90, 500, 150, True, 214)
+    PHYS3032_PS6 = Homework("PHYS3032", "PS6", 30, 510, 210, True, 147)
+    PHYS3032_PS7 = Homework("PHYS3032", "PS7", 90, 350, 230, True, 234)
+    PHYS3032_PS8 = Homework("PHYS3032", "PS8", 60, 210, 140, True, 217)
     
     EMIA2020_HW1 = Homework("EMIA2020", "HW1", *serachcourse_withoutgraph("emia2020", "hw1", user.get_cga()))
     EMIA2020_HW2 = Homework("EMIA2020", "HW2", *serachcourse_withoutgraph("emia2020", "hw2", user.get_cga()))
