@@ -23,6 +23,17 @@ import datetime                           #show user how he finish his work
 
 """define function"""
 
+def gethw():
+  df=pd.read_csv('hwtime.csv',index_col=[0])
+  #print(df)
+  df1=pd.unique(df['coursecode'])
+  dictionary={}
+  for i in df1:
+    df2=df[df['coursecode']==i]
+    df2=pd.unique(df2['hwindex'])
+    dictionary[i]=list(df2)
+  return dictionary
+
 def suggesttime(cga,df):    #helper function
   percentagetile=1-((cga-2.0)/2.0)
   index=int(percentagetile*len(df))
@@ -39,18 +50,18 @@ def serachcourse_withoutgraph(coursecode,index,cga): #input parameter and return
   values, base = np.histogram(df2['time'], bins=10)
   base=base[:-1]
   cumulative = np.cumsum(values)
-  plt.plot(base,cumulative)
+  #plt.plot(base,cumulative)
   #xnew = np.linspace(base.min(), base.max(), 100)      #can smooth the graph(but will change it into non cumulative graph)
   #power_smooth = make_interp_spline(base,cumulative)(xnew)
   #plt.plot(xnew, power_smooth)
-  plt.xlabel("time to finish/minutes")
-  ax = plt.gca()
-  ax.get_yaxis().set_visible(False) #clear the yaxis
+  #plt.xlabel("time to finish/minutes")
+  #ax = plt.gca()
+  #ax.get_yaxis().set_visible(False) #clear the yaxis
   #plt.show()
   print('Maximum of time used in the homework by past data:',df2['time'].max(),'minutes')
   print('Minimum of time used in the homework by past data:',df2['time'].min(),'minutes')
   print('suggest time for you to do the homework:',suggesttime(cga,df2))
-  return int(df2['time'].min()), int(df2['time'].max()), int(suggesttime(cga,df2)),True
+  return int(df2['time'].min()), int(df2['time'].max()), int(suggesttime(cga,df2)),True,int(df2['time'].mean())
 
 def serachcourse_withgraph(coursecode,index,cga): #input parameter and return max,min and suggest time,boolean value represent does it find the course and print the graph
   df1=pd.read_csv('hwtime.csv')         #0utput those max min and suggest tme in the UI
@@ -62,13 +73,14 @@ def serachcourse_withgraph(coursecode,index,cga): #input parameter and return ma
   values, base = np.histogram(df2['time'], bins=10)
   base=base[:-1]
   cumulative = np.cumsum(values)
+  cumulative=cumulative/cumulative[-1]
   plt.plot(base,cumulative)
   #xnew = np.linspace(base.min(), base.max(), 100)      #can smooth the graph(but will change it into non cumulative graph)
   #power_smooth = make_interp_spline(base,cumulative)(xnew)
   #plt.plot(xnew, power_smooth)
   plt.xlabel("time to finish/minutes")
-  ax = plt.gca()
-  ax.get_yaxis().set_visible(False) #clear the yaxis
+  plt.ylabel("percentagetile")
+  plt.title('past data of '+coursecode+' '+index)
   #plt.show()
   plt.savefig("homework.png")
 
@@ -104,6 +116,32 @@ def login(userid):    #maynot be that useful for this function as it require con
   if(not df1.empty):
     return userid,df1['cga'][0],True
   return False
+
+def newcheckdeadlinefighter(user):
+  now=datetime.datetime.now()
+  now=now.timestamp()
+  df=pd.read_csv('hwtime.csv',index_col=[0])  #df is the whole dataframe
+  df1=df[df['userid']==user]  #df1:the hw submitted by user
+  df1=df1.sort_values(by=['timehandin'])
+  deadline=[]
+  percentage=[]
+  initialpercentage=[]
+  for i in df1.index:
+    course=df1['coursecode'][i]
+    index=df1['hwindex'][i]
+    df2=df[df['coursecode']==course]
+    df2=df2[df2['hwindex']==index]    #df2:all the people handing in the same hw
+    hours=int((df2['timehandin'].max()-df1['timehandin'][i])/3600)
+    deadline=deadline+[hours]
+    percentage+=[df2['timehandin'].rank(pct=True)[i]]
+  for i in range(len(df1)):
+    initialpercentage+=[1-sum(percentage[0:i+1])/(i+1)]
+  plt.plot(df1['coursecode']+df1['hwindex'],initialpercentage)
+  plt.title("graph showing how deadline fighter you are")
+  plt.xlabel('the percentage of deadline fighter when you finish this hw')
+  plt.ylabel('the percentage of you being a deadline fighter')
+  plt.show()
+  plt.savefig("temp.png")
 
 def checkdeadlinefighter(user): #find the user past data, just input the data name and output true when he is a deadlinefighter, otherwise false
   now=datetime.datetime.now()   #if true maybe output some words that remind him as a deadline fighter
