@@ -4,6 +4,16 @@ import customtkinter
 from PIL import Image
 from hwtime import *
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import os
+
+#Option#
+Developer_Mode = True
+Bypass_Login = True
+
+
+
+
+#There are no more option below this line#
 
 #Initialization
 root = customtkinter.CTk()
@@ -38,7 +48,7 @@ def search(code = None):
             for j in homework_list:
                 if j.get_course() == code:
                     homework_name = str(j.get_homework_name())
-                    label = customtkinter.CTkButton(result_frame, text = "{}\t\t{}\t\t{}\t\t{}".format(j.get_homework_name(), j.get_suggested_time(), j.get_min_time(), j.get_max_time()), font = customTextFont, fg_color = current_colour, width = 980, height = 50, command = lambda:display_homework_graph(j), corner_radius = 0)
+                    label = customtkinter.CTkButton(result_frame, text = "{}\t\t{}\t\t{}\t\t{}".format(j.get_homework_name(), j.get_suggested_time(), j.get_min_time(), j.get_max_time()), font = customTextFont, fg_color = current_colour, width = 980, height = 50, command = lambda: display_homework_graph(j), corner_radius = 0)
                     result_list.append(label)
                     label.pack()
                     label.place(x = 0, y = current_y)
@@ -104,12 +114,19 @@ def display_performace_graph():
     fighter_notice.pack()
     fighter_notice.place(x = 330, y = 650)
 
-def try_login():
-    username = username_entry.get()
-    password = password_entry.get()
+def try_login(bypass_user = None):
     global login
     global success_login
     global login_frame
+    if bypass_user != None:
+        initialize_data(bypass_user)
+        login = bypass_user
+        success_login = True
+        buildSearchFrame()
+        build_left_menu_frame()
+        return None
+    username = username_entry.get()
+    password = password_entry.get()
     for i in user_list:
         if i.get_username() == username:
             if i.check_password(password):
@@ -148,6 +165,9 @@ def buildSearchFrame(input = None):
     notice_bar.place(x = 0, y = 90)
 
 def buildLoginFrame():
+    if Bypass_Login:
+        try_login(user_list[0])
+        return None
     global username_entry
     global password_entry
     global login_frame
@@ -258,6 +278,9 @@ def submit():
             submitted.pack()
             submitted.place(x = 390, y = 500)
 
+def reset_database():
+    os.system("xcopy .\Bin\hwtime.csv hwtime.csv /Y")
+
 #Left Menu
 def build_left_menu_frame():
     left_menu_frame = customtkinter.CTkFrame(root, width = 300, height = 720, corner_radius = 0, fg_color= "grey2")
@@ -279,6 +302,14 @@ def build_left_menu_frame():
                                             font = customButtonFont, fg_color = customButtonColour, corner_radius = 0, width = 300, height = 70, command = buildPerformanceFrame)
     performance_option.pack()
     performance_option.place(x = 0, y = 230)
+
+    if Developer_Mode == True:
+        reset_database_button = customtkinter.CTkButton(left_menu_frame, text = "Reset Database", width = 300, height = 30, fg_color = "red", font = customButtonFont, corner_radius = 0, command = reset_database)
+        reset_database_button.pack()
+        reset_database_button.place(x = 0, y = 640)
+        developer_mode_label = customtkinter.CTkLabel(left_menu_frame, text = "Developer Mode", width = 300, height = 20, font = customTextFont)
+        developer_mode_label.pack()
+        developer_mode_label.place(x = 0, y = 680)
 
 buildLoginFrame()
 
