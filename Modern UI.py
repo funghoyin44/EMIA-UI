@@ -48,7 +48,7 @@ def search(code = None):
             for j in homework_list:
                 if j.get_course() == code:
                     homework_name = str(j.get_homework_name())
-                    label = customtkinter.CTkButton(result_frame, text = "{}\t\t{}\t\t{}\t\t{}".format(j.get_homework_name(), j.get_suggested_time(), j.get_min_time(), j.get_max_time()), font = customTextFont, fg_color = current_colour, width = 980, height = 50, command = lambda: display_homework_graph(j), corner_radius = 0)
+                    label = customtkinter.CTkButton(result_frame, text = "{}\t\t{}\t\t{}\t\t{}".format(j.get_homework_name(), j.get_suggested_time(), j.get_min_time(), j.get_max_time()), font = customTextFont, fg_color = current_colour, width = 980, height = 50, command = lambda j = j: display_homework_graph(j), corner_radius = 0)
                     result_list.append(label)
                     label.pack()
                     label.place(x = 0, y = current_y)
