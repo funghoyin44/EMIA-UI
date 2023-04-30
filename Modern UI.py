@@ -102,7 +102,7 @@ def clear_result():
 
 def display_performace_graph():
     global performance_frame
-    deadline_fighter = checkdeadlinefighter("a")
+    deadline_fighter = newcheckdeadlinefighter("a")
     graph_source = customtkinter.CTkImage(Image.open("temp.png"), size = (800, 500))
     label = customtkinter.CTkLabel(performance_frame, image = graph_source)
     label.pack()
