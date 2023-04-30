@@ -86,7 +86,7 @@ def display_homework_graph(homework):
     homework_graph = customtkinter.CTkLabel(homework_graph_frame, image = homework_graph_source)
     homework_graph.pack()
     homework_graph.place(x = 100, y = 150)
-    detail = customtkinter.CTkLabel(homework_graph_frame, text = "Suggested Time for You: {}\tMin Time: {}\tMax Time: {}".format(homework.get_suggested_time(), homework.get_min_time(), homework.get_max_time()), font = customTextFont, width = 200, height = 40)
+    detail = customtkinter.CTkLabel(homework_graph_frame, text = "Suggested Time for You: {}\t\tMin: {}\t\tMean: {}\tMax: {}".format(homework.get_suggested_time(), homework.get_min_time(), homework.get_mean_time(), homework.get_max_time()), font = customTextFontSmall, width = 200, height = 40)
     detail.pack()
     detail.place(x = 100, y = 650)
 
