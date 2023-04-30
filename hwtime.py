@@ -83,6 +83,7 @@ def serachcourse_withgraph(coursecode,index,cga): #input parameter and return ma
   plt.title('past data of '+coursecode+' '+index)
   #plt.show()
   plt.savefig("homework.png")
+  plt.close()
 
 
 def uploaddata(coursecode,index,hwtime,userid,cga,finishtime): #input all the parameter and things will be upload to csv
@@ -118,8 +119,6 @@ def login(userid):    #maynot be that useful for this function as it require con
   return False
 
 def newcheckdeadlinefighter(user):
-  now=datetime.datetime.now()
-  now=now.timestamp()
   df=pd.read_csv('hwtime.csv',index_col=[0])  #df is the whole dataframe
   df1=df[df['userid']==user]  #df1:the hw submitted by user
   df1=df1.sort_values(by=['timehandin'])
@@ -140,8 +139,8 @@ def newcheckdeadlinefighter(user):
   plt.title("graph showing how deadline fighter you are")
   plt.xlabel('the percentage of deadline fighter when you finish this hw')
   plt.ylabel('the percentage of you being a deadline fighter')
-  plt.show()
   plt.savefig("temp.png")
+  plt.close()
 
 def checkdeadlinefighter(user): #find the user past data, just input the data name and output true when he is a deadlinefighter, otherwise false
   now=datetime.datetime.now()   #if true maybe output some words that remind him as a deadline fighter
