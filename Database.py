@@ -53,7 +53,7 @@ class User:
 course_list = ["EMIA2020", "COMP1021", "PHYS3032"]
 homework_list = []
 user_list = []
-
+skin_option_list = ["Teddy Bear"]
 
 def initialize_data(user):
     

@@ -86,7 +86,7 @@ def display_homework_graph(homework):
     homework_graph = customtkinter.CTkLabel(homework_graph_frame, image = homework_graph_source)
     homework_graph.pack()
     homework_graph.place(x = 100, y = 150)
-    detail = customtkinter.CTkLabel(homework_graph_frame, text = "Suggested Time for You: {}\t\tMin: {}\t\tMean: {}\tMax: {}".format(homework.get_suggested_time(), homework.get_min_time(), homework.get_mean_time(), homework.get_max_time()), font = customTextFontSmall, width = 200, height = 40)
+    detail = customtkinter.CTkLabel(homework_graph_frame, text = "Suggested Time: {}\tMin Time: {}\tMax Time: {}".format(homework.get_suggested_time(), homework.get_min_time(), homework.get_max_time()), font = customTextFont, width = 200, height = 40)
     detail.pack()
     detail.place(x = 100, y = 650)
 
@@ -102,7 +102,7 @@ def clear_result():
 
 def display_performace_graph():
     global performance_frame
-    deadline_fighter = newcheckdeadlinefighter("a")
+    deadline_fighter = checkdeadlinefighter("a")
     graph_source = customtkinter.CTkImage(Image.open("temp.png"), size = (800, 500))
     label = customtkinter.CTkLabel(performance_frame, image = graph_source)
     label.pack()
@@ -269,7 +269,7 @@ def update_homework_choice_list(course_chosen):
     
 
 def submit():
-        if(uploaddata(course_choice.get().lower(), homework_chosen.get().lower(), time_entry.get(), "a", login.get_cga(), date_entry.get()) == True):
+        if(uploaddata(course_choice.get(), homework_chosen.get(), time_entry.get(), "a", login.get_cga(), date_entry.get()) == True):
             submitted = customtkinter.CTkLabel(upload_frame, text = "Submitted! Thank You!", font = customTextFontSmall, text_color = "green", width = 100, height = 30)
             submitted.pack()
             submitted.place(x = 390, y = 500)
@@ -280,6 +280,23 @@ def submit():
 
 def reset_database():
     os.system("xcopy .\Bin\hwtime.csv hwtime.csv /Y")
+
+def buildOptionFrame():
+    option_frame = customtkinter.CTkFrame(root, width = 980, height = 720)
+    option_frame.pack()
+    option_frame.place(x = 300, y = 0)
+    title = customtkinter.CTkLabel(option_frame, text = "Options\t\t\t\t\t\t\t", fg_color = "grey", font = customTextFont, width = 980, height = 60)
+    title.pack()
+    title.place(x = 0, y = 0)
+    skin_label = customtkinter.CTkLabel(option_frame, text = "Skin:", font = customTextFontSmall, width = 50, height = 20)
+    skin_label.pack()
+    skin_label.place(x = 200, y = 280)
+    skin_chosen = customtkinter.StringVar(option_frame)
+    skin_chosen.set(skin_option_list[0])
+    skin_choice = customtkinter.CTkOptionMenu(option_frame, width = 200, height = 40, variable = skin_chosen, values = skin_option_list)
+    skin_choice.pack()
+    skin_choice.place(x = 255, y = 275)
+    
 
 #Left Menu
 def build_left_menu_frame():
@@ -303,13 +320,22 @@ def build_left_menu_frame():
     performance_option.pack()
     performance_option.place(x = 0, y = 230)
 
+    option_option = customtkinter.CTkButton(left_menu_frame, text = "Options", width = 300, height = 70, corner_radius = 0, font = customButtonFont, fg_color = customButtonColour, command = buildOptionFrame)
+    option_option.pack()
+    option_option.place(x = 0, y = 300)
+
+    skin_image = customtkinter.CTkImage(Image.open(".\Bin\Elements\Pattern.png"), size = (300, 500))
+    skin = customtkinter.CTkLabel(master = left_menu_frame, image = skin_image, text = "")
+    skin.pack()
+    skin.place(x = 0, y = 370)
+
     if Developer_Mode == True:
         reset_database_button = customtkinter.CTkButton(left_menu_frame, text = "Reset Database", width = 300, height = 30, fg_color = "red", font = customButtonFont, corner_radius = 0, command = reset_database)
         reset_database_button.pack()
-        reset_database_button.place(x = 0, y = 640)
+        reset_database_button.place(x = 0, y = 650)
         developer_mode_label = customtkinter.CTkLabel(left_menu_frame, text = "Developer Mode", width = 300, height = 20, font = customTextFont)
         developer_mode_label.pack()
-        developer_mode_label.place(x = 0, y = 680)
+        developer_mode_label.place(x = 0, y = 685)
 
 buildLoginFrame()
 
