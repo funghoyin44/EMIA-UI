@@ -140,7 +140,6 @@ def newcheckdeadlinefighter(user):
   plt.title("graph showing how deadline fighter you are")
   plt.xlabel('the percentage of deadline fighter when you finish this hw')
   plt.ylabel('the percentage of you being a deadline fighter')
-  plt.show()
   plt.savefig("temp.png")
 
 def checkdeadlinefighter(user): #find the user past data, just input the data name and output true when he is a deadlinefighter, otherwise false

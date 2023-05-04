@@ -83,7 +83,7 @@ def display_homework_graph(homework):
     exit_button.pack()
     exit_button.place(x = 10, y = 7)
     homework_graph_source = customtkinter.CTkImage(Image.open("homework.png"), size = (800, 500))
-    homework_graph = customtkinter.CTkLabel(homework_graph_frame, image = homework_graph_source)
+    homework_graph = customtkinter.CTkLabel(homework_graph_frame, image = homework_graph_source, text = "")
     homework_graph.pack()
     homework_graph.place(x = 100, y = 150)
     detail = customtkinter.CTkLabel(homework_graph_frame, text = "Suggested Time: {}\tMin Time: {}\tMax Time: {}".format(homework.get_suggested_time(), homework.get_min_time(), homework.get_max_time()), font = customTextFont, width = 200, height = 40)
@@ -104,7 +104,7 @@ def display_performace_graph():
     global performance_frame
     deadline_fighter = newcheckdeadlinefighter("a")
     graph_source = customtkinter.CTkImage(Image.open("temp.png"), size = (800, 500))
-    label = customtkinter.CTkLabel(performance_frame, image = graph_source)
+    label = customtkinter.CTkLabel(performance_frame, image = graph_source, text = "")
     label.pack()
     label.place(x = 100, y = 150)
     if deadline_fighter == True:
@@ -157,7 +157,7 @@ def buildSearchFrame(input = None):
         search_bar.insert(0, "Search Course Code")
     search_bar.pack()
     search_bar.place(x = 40, y = 20)
-    search_button = customtkinter.CTkButton(result_frame, width = 200, height = 50, fg_color= customButtonColour, text = "Search", font= customButtonFont, command = search)
+    search_button = customtkinter.CTkButton(result_frame, width = 200, height = 50, fg_color= customButtonColour, text = "Go >", font= customButtonFont, command = search)
     search_button.pack()
     search_button.place(x = 750, y = 20)
     notice_bar = customtkinter.CTkLabel(result_frame, text = "Homework\tSuggested\tMin\t\tMax", font = customTextFont, width = 980, height = 20, fg_color = "grey")
