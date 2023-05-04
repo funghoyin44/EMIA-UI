@@ -83,6 +83,7 @@ def serachcourse_withgraph(coursecode,index,cga): #input parameter and return ma
   plt.title('past data of '+coursecode+' '+index)
   #plt.show()
   plt.savefig("homework.png")
+  plt.close()
 
 
 def uploaddata(coursecode,index,hwtime,userid,cga,finishtime): #input all the parameter and things will be upload to csv
@@ -141,6 +142,7 @@ def newcheckdeadlinefighter(user):
   plt.xlabel('the percentage of deadline fighter when you finish this hw')
   plt.ylabel('the percentage of you being a deadline fighter')
   plt.savefig("temp.png")
+  plt.close()
 
 def checkdeadlinefighter(user): #find the user past data, just input the data name and output true when he is a deadlinefighter, otherwise false
   now=datetime.datetime.now()   #if true maybe output some words that remind him as a deadline fighter
@@ -177,6 +179,7 @@ def checkdeadlinefighter(user): #find the user past data, just input the data na
   #ax.get_yaxis().set_visible(False)
   #plt.show()
   plt.savefig("temp.png")
+  plt.close()
   """"
   temp=float(1-(sum(percentage)/len(percentage)))
   print('there are averagely',end='')
