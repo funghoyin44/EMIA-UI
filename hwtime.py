@@ -80,10 +80,10 @@ def serachcourse_withgraph(coursecode,index,cga): #input parameter and return ma
   #plt.plot(xnew, power_smooth)
   plt.xlabel("time to finish/minutes")
   plt.ylabel("percentagetile")
+  plt.grid(visible=True)
   plt.title('past data of '+coursecode+' '+index)
   #plt.show()
   plt.savefig("homework.png")
-  plt.grid(visible=True)
   plt.close()
 
 
