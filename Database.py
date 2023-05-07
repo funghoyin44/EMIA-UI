@@ -1,12 +1,13 @@
 from hwtime import *
 
 class Homework:
-    def __init__(self, course:str, homework:str, min_time:int, max_time:int, suggested_time:int, useless:bool, mean:int):
+    def __init__(self, course:str, homework:str, min_time:int, max_time:int, suggested_time:int, useless:bool, mean_time:int):
         self.course = course
         self.homework = homework
         self.suggested_time = int(suggested_time)
         self.min_time = min_time
         self.max_time = max_time
+        self.mean_time = mean_time
         homework_list.append(self)
 
     def get_course(self)->str:
@@ -23,6 +24,9 @@ class Homework:
     
     def get_max_time(self)->int:
         return self.max_time
+    
+    def get_mean_time(self)->int:
+        return self.mean_time
 
 class User:
     def __init__(self, username:str, password:str, first_name:str, last_name:str, cga:int):

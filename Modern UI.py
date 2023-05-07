@@ -7,8 +7,8 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import os
 
 #Option#
-Developer_Mode = False
-Bypass_Login = True
+Developer_Mode = True
+Bypass_Login = False
 
 
 
@@ -90,7 +90,7 @@ def display_homework_graph(homework):
     homework_graph = customtkinter.CTkLabel(homework_graph_frame, image = homework_graph_source, text = "")
     homework_graph.pack()
     homework_graph.place(x = 100, y = 150)
-    detail = customtkinter.CTkLabel(homework_graph_frame, text = "Suggested Time: {}\tMin Time: {}\tMax Time: {}".format(homework.get_suggested_time(), homework.get_min_time(), homework.get_max_time()), font = customTextFont, width = 200, height = 40)
+    detail = customtkinter.CTkLabel(homework_graph_frame, text = "Suggested Time: {}\tMean: {}\tMin Time: {}\tMax Time: {}".format(homework.get_suggested_time(), homework.get_mean_time(), homework.get_min_time(), homework.get_max_time()), font = customTextFontSmall, width = 200, height = 40)
     detail.pack()
     detail.place(x = 100, y = 650)
 
@@ -239,6 +239,7 @@ def buildUploadFrame():
     date_tag.place(x = 550, y = 300)
     date_entry = customtkinter.CTkEntry(upload_frame, width = 200, height = 40)
     date_entry.pack()
+    date_entry.insert(0, "0 for now")
     date_entry.place(x = 730, y = 300)
     
     submit_button = customtkinter.CTkButton(upload_frame, text = "Submit", fg_color = customButtonColour, font = customButtonFont, width = 200, height = 50, corner_radius = 10, command = submit)
