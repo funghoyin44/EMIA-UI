@@ -50,13 +50,19 @@ class User:
     def get_cga(self)->int:
         return self.cga
     
-course_list = ["EMIA2020", "COMP1021", "PHYS3032"]
+course_list = []
 homework_list = []
 user_list = []
 skin_option_list = ["Teddy Bear"]
 
 def initialize_data(user):
-    
+    temp_dict = gethw()
+    for i in temp_dict.keys():
+        course_list.append(i.upper())
+        for j in temp_dict[i]:
+            Homework(i.upper(), j.upper(), *serachcourse_withoutgraph(i, j, user.get_cga()))
+
+    """
     PHYS3032_PS1 = Homework("PHYS3032", "PS1", 30, 301, 130, True, 100)
     PHYS3032_PS2 = Homework("PHYS3032", "PS2", 40, 461, 170, True, 300)
     PHYS3032_PS3 = Homework("PHYS3032", "PS3", 50, 270, 100, True, 400)
@@ -69,5 +75,6 @@ def initialize_data(user):
     EMIA2020_HW1 = Homework("EMIA2020", "HW1", *serachcourse_withoutgraph("emia2020", "hw1", user.get_cga()))
     EMIA2020_HW2 = Homework("EMIA2020", "HW2", *serachcourse_withoutgraph("emia2020", "hw2", user.get_cga()))
     COMP1021_PA1 = Homework("COMP1021", "PA1", *serachcourse_withoutgraph("comp1021", "pa1", user.get_cga()))
+    """
 user0 = User("andrew", "123456", "Andrew", "Ho", 3.7)
 user1 = User("mary3308", "qwer789", "Megumi", "Kato", 4.0)
