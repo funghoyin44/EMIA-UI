@@ -158,10 +158,10 @@ def buildSearchFrame(input = None):
     if input != None:
         search_bar.insert(0, str(input))
     else:
-        search_bar.insert(0, "Search Course Code")
+        search_bar.insert(0, "Enter Course Code")
     search_bar.pack()
     search_bar.place(x = 40, y = 20)
-    search_button = customtkinter.CTkButton(result_frame, width = 200, height = 50, fg_color= customButtonColour, text = "Search", font= customButtonFont, command = search)
+    search_button = customtkinter.CTkButton(result_frame, width = 200, height = 50, fg_color= customButtonColour, text = "Enter", font= customButtonFont, command = search)
     search_button.pack()
     search_button.place(x = 750, y = 20)
     notice_bar = customtkinter.CTkLabel(result_frame, text = "Homework\tSuggested\tMin\t\tMax", font = customTextFont, width = 980, height = 20, fg_color = "grey")
