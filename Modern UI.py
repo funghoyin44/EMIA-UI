@@ -323,11 +323,13 @@ def build_left_menu_frame():
     option_option = customtkinter.CTkButton(left_menu_frame, text = "Options", width = 300, height = 70, corner_radius = 0, font = customButtonFont, fg_color = customButtonColour, command = buildOptionFrame)
     option_option.pack()
     option_option.place(x = 0, y = 300)
-
+    
+    """
     skin_image = customtkinter.CTkImage(Image.open(".\Bin\Elements\Pattern.png"), size = (300, 500))
     skin = customtkinter.CTkLabel(master = left_menu_frame, image = skin_image, text = "")
     skin.pack()
     skin.place(x = 0, y = 370)
+    """
 
     if Developer_Mode == True:
         reset_database_button = customtkinter.CTkButton(left_menu_frame, text = "Reset Database", width = 300, height = 30, fg_color = "red", font = customButtonFont, corner_radius = 0, command = reset_database)
