@@ -54,6 +54,7 @@ course_list = []
 homework_list = []
 user_list = []
 skin_option_list = ["Teddy Bear"]
+colour_option_list = ["Green-Red", "Green-Orange"]
 
 def initialize_data(user):
     temp_dict = gethw()
