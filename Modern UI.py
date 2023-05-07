@@ -7,7 +7,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import os
 
 #Option#
-Developer_Mode = True
+Developer_Mode = False
 Bypass_Login = True
 
 
@@ -32,6 +32,7 @@ homework_choice_list = []
 login = User
 success_login = False
 performance_graph_generated = False
+search_colour = colour_option_list[0]
 
 #Logic
 def search(code = None):
@@ -40,7 +41,10 @@ def search(code = None):
     current_y = 125
     if code == None:
         code = search_bar.get().upper()
-    colour_list = ["#37ed61", "#e66581"]
+    if search_colour == colour_option_list[0]:
+        colour_list = ["#37ed61", "#e66581"]
+    else:
+        colour_list = ["#37ed61", "#f2ce16"]
     current_colour = colour_list[0]
     clear_result()
     for i in course_list:
@@ -157,7 +161,7 @@ def buildSearchFrame(input = None):
         search_bar.insert(0, "Search Course Code")
     search_bar.pack()
     search_bar.place(x = 40, y = 20)
-    search_button = customtkinter.CTkButton(result_frame, width = 200, height = 50, fg_color= customButtonColour, text = "Go >", font= customButtonFont, command = search)
+    search_button = customtkinter.CTkButton(result_frame, width = 200, height = 50, fg_color= customButtonColour, text = "Search", font= customButtonFont, command = search)
     search_button.pack()
     search_button.place(x = 750, y = 20)
     notice_bar = customtkinter.CTkLabel(result_frame, text = "Homework\tSuggested\tMin\t\tMax", font = customTextFont, width = 980, height = 20, fg_color = "grey")
@@ -282,6 +286,7 @@ def reset_database():
     os.system("xcopy .\Bin\hwtime.csv hwtime.csv /Y")
 
 def buildOptionFrame():
+    global colour_chosen
     option_frame = customtkinter.CTkFrame(root, width = 980, height = 720)
     option_frame.pack()
     option_frame.place(x = 300, y = 0)
@@ -296,7 +301,19 @@ def buildOptionFrame():
     skin_choice = customtkinter.CTkOptionMenu(option_frame, width = 200, height = 40, variable = skin_chosen, values = skin_option_list)
     skin_choice.pack()
     skin_choice.place(x = 255, y = 275)
+    colour_label = customtkinter.CTkLabel(option_frame, text = "Colour Scheme:", font = customTextFontSmall, width = 50, height = 20)
+    colour_label.pack()
+    colour_label.place(x = 530, y = 280)
+    colour_chosen = customtkinter.StringVar(option_frame)
+    colour_chosen.set(search_colour)
+    colour_choice = customtkinter.CTkOptionMenu(option_frame, width = 200, height = 40, variable = colour_chosen, values = colour_option_list, command = change_search_colour)
+    colour_choice.pack()
+    colour_choice.place(x = 665, y = 275)
     
+
+def change_search_colour(arg):
+    global search_colour
+    search_colour = colour_chosen.get()
 
 #Left Menu
 def build_left_menu_frame():
@@ -320,16 +337,17 @@ def build_left_menu_frame():
     performance_option.pack()
     performance_option.place(x = 0, y = 230)
 
+
     option_option = customtkinter.CTkButton(left_menu_frame, text = "Options", width = 300, height = 70, corner_radius = 0, font = customButtonFont, fg_color = customButtonColour, command = buildOptionFrame)
     option_option.pack()
     option_option.place(x = 0, y = 300)
     
-    
+    """
     skin_image = customtkinter.CTkImage(Image.open(".\Bin\Elements\Pattern.png"), size = (300, 500))
     skin = customtkinter.CTkLabel(master = left_menu_frame, image = skin_image, text = "")
     skin.pack()
     skin.place(x = 0, y = 370)
-
+    """
 
     if Developer_Mode == True:
         reset_database_button = customtkinter.CTkButton(left_menu_frame, text = "Reset Database", width = 300, height = 30, fg_color = "red", font = customButtonFont, corner_radius = 0, command = reset_database)
