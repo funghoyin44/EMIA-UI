@@ -83,6 +83,7 @@ def serachcourse_withgraph(coursecode,index,cga): #input parameter and return ma
   plt.title('past data of '+coursecode+' '+index)
   #plt.show()
   plt.savefig("homework.png")
+  plt.grid(visible=True)
   plt.close()
 
 
