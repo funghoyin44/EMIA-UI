@@ -274,7 +274,7 @@ def update_homework_choice_list(course_chosen):
     
 
 def submit():
-        if(uploaddata(course_choice.get(), homework_chosen.get(), time_entry.get(), "a", login.get_cga(), date_entry.get()) == True):
+        if(uploaddata(course_choice.get().lower(), homework_chosen.get().lower(), time_entry.get(), "a", login.get_cga(), date_entry.get()) == True):
             submitted = customtkinter.CTkLabel(upload_frame, text = "Submitted! Thank You!", font = customTextFontSmall, text_color = "green", width = 100, height = 30)
             submitted.pack()
             submitted.place(x = 390, y = 500)
