@@ -45,7 +45,6 @@ def serachcourse_withoutgraph(coursecode,index,cga): #input parameter and return
   df2=df1[(df1['coursecode']==coursecode)]
   df2=df2[df2['hwindex']==index]
   if(df2.empty):
-    print("no such course code or hwindex is found")
     return False
   values, base = np.histogram(df2['time'], bins=10)
   base=base[:-1]
@@ -58,9 +57,6 @@ def serachcourse_withoutgraph(coursecode,index,cga): #input parameter and return
   #ax = plt.gca()
   #ax.get_yaxis().set_visible(False) #clear the yaxis
   #plt.show()
-  print('Maximum of time used in the homework by past data:',df2['time'].max(),'minutes')
-  print('Minimum of time used in the homework by past data:',df2['time'].min(),'minutes')
-  print('suggest time for you to do the homework:',suggesttime(cga,df2))
   return int(df2['time'].min()), int(df2['time'].max()), int(suggesttime(cga,df2)),True,int(df2['time'].mean())
 
 def serachcourse_withgraph(coursecode,index,cga): #input parameter and return max,min and suggest time,boolean value represent does it find the course and print the graph
@@ -68,7 +64,6 @@ def serachcourse_withgraph(coursecode,index,cga): #input parameter and return ma
   df2=df1[(df1['coursecode']==coursecode)]
   df2=df2[df2['hwindex']==index]
   if(df2.empty):
-    print("no such course code or hwindex is found")
     return False
   values, base = np.histogram(df2['time'], bins=10)
   base=base[:-1]
@@ -93,7 +88,6 @@ def uploaddata(coursecode,index,hwtime,userid,cga,finishtime): #input all the pa
   df=df[df['hwindex']==index]
   df=df[df['userid']==userid]
   if(not df.empty):
-    print('you have already upload this hw once')
     return False
   if(finishtime=='0'):
     deadline=datetime.datetime.now()

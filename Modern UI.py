@@ -7,7 +7,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import os
 
 #Option#
-Developer_Mode = False
+Developer_Mode = True
 Bypass_Login = False
 
 
@@ -53,7 +53,7 @@ def search(code = None):
             for j in homework_list:
                 if j.get_course() == code:
                     homework_name = str(j.get_homework_name())
-                    label = customtkinter.CTkButton(result_frame, text = "{}\t\t{}\t\t{}\t\t{}".format(j.get_homework_name(), j.get_suggested_time(), j.get_min_time(), j.get_max_time()), font = customTextFont, fg_color = current_colour, width = 980, height = 50, command = lambda j = j: display_homework_graph(j), corner_radius = 0)
+                    label = customtkinter.CTkButton(result_frame, text = "{}\t               {}\t                         {}\t         {}".format(j.get_homework_name(), j.get_suggested_time(), j.get_min_time(), j.get_max_time()), font = customTextFont, fg_color = current_colour, width = 980, height = 50, command = lambda j = j: display_homework_graph(j), corner_radius = 0)
                     result_list.append(label)
                     label.pack()
                     label.place(x = 0, y = current_y)
@@ -91,7 +91,7 @@ def display_homework_graph(homework):
     homework_graph = customtkinter.CTkLabel(homework_graph_frame, image = homework_graph_source, text = "")
     homework_graph.pack()
     homework_graph.place(x = 100, y = 150)
-    detail = customtkinter.CTkLabel(homework_graph_frame, text = "Suggested Time: {}\tMean Time: {}     \tMin Time: {}\tMax Time: {}".format(homework.get_suggested_time(), homework.get_mean_time(), homework.get_min_time(), homework.get_max_time()), font = customTextFontSmall, width = 200, height = 40)
+    detail = customtkinter.CTkLabel(homework_graph_frame, text = "Suggested Time: {}\t    Mean Time: {} \tMin Time: {}             Max Time: {}".format(homework.get_suggested_time(), homework.get_mean_time(), homework.get_min_time(), homework.get_max_time()), font = customTextFontSmall, width = 200, height = 40)
     detail.pack()
     detail.place(x = 100, y = 650)
 
@@ -165,7 +165,7 @@ def buildSearchFrame(input = None):
     search_button = customtkinter.CTkButton(result_frame, width = 200, height = 50, fg_color= customButtonColour, text = "Enter", font= customButtonFont, command = search)
     search_button.pack()
     search_button.place(x = 750, y = 20)
-    notice_bar = customtkinter.CTkLabel(result_frame, text = "Homework\tSuggested\tMin\t\tMax", font = customTextFont, width = 980, height = 20, fg_color = "grey")
+    notice_bar = customtkinter.CTkLabel(result_frame, text = "Homework             Suggested                 Min                             Max", font = customTextFont, width = 980, height = 20, fg_color = "grey")
     notice_bar.pack()
     notice_bar.place(x = 0, y = 90)
 
@@ -208,7 +208,7 @@ def buildUploadFrame():
     upload_frame.pack()
     upload_frame.place(x = 300, y = 0)
 
-    top_bar = customtkinter.CTkLabel(upload_frame, text = "Result Upload\t\t\t\t Welcome {} {}".format(login.get_first_name(), login.get_last_name()), font = customTextFont, fg_color = "grey", width = 980, height = 60)
+    top_bar = customtkinter.CTkLabel(upload_frame, text = "Result Upload\t\tWelcome {} {}".format(login.get_first_name(), login.get_last_name()), font = customTextFont, fg_color = "grey", width = 980, height = 60)
     top_bar.pack()
     top_bar.place(x = 0, y = 0)
     title = customtkinter.CTkLabel(upload_frame, text = "Homework Detail", font = customTextFont, width = 980, height = 60)
@@ -216,7 +216,7 @@ def buildUploadFrame():
     title.place(x = 0, y = 60)
     course_tag = customtkinter.CTkLabel(upload_frame, text = "Course:", font=customTextFontSmall, width = 100, height = 40)
     course_tag.pack()
-    course_tag.place(x = 160, y = 200)
+    course_tag.place(x = 157, y = 200)
     course_chosen = customtkinter.StringVar(upload_frame)
     course_chosen.set(course_list[0])
     update_homework_choice_list(course_list[0])
@@ -226,18 +226,18 @@ def buildUploadFrame():
 
     homework_tag = customtkinter.CTkLabel(upload_frame, text = "Homework:", font=customTextFontSmall, width = 100, height = 40)
     homework_tag.pack()
-    homework_tag.place(x = 550, y = 200)
+    homework_tag.place(x = 545, y = 200)
 
     time_tag = customtkinter.CTkLabel(upload_frame, text = "Time(Minutes):", font=customTextFontSmall, width = 100, height = 40)
     time_tag.pack()
-    time_tag.place(x = 160, y = 300)
+    time_tag.place(x = 130, y = 300)
     time_entry = customtkinter.CTkEntry(upload_frame, width = 200, height = 40)
     time_entry.pack()
-    time_entry.place(x = 295, y = 300)
+    time_entry.place(x = 280, y = 300)
 
     date_tag = customtkinter.CTkLabel(upload_frame, text = "Date(YYYY-MM-DD):", font=customTextFontSmall, width = 100, height = 40)
     date_tag.pack()
-    date_tag.place(x = 550, y = 300)
+    date_tag.place(x = 522, y = 300)
     date_entry = customtkinter.CTkEntry(upload_frame, width = 200, height = 40)
     date_entry.pack()
     date_entry.insert(0, "0 for now")
@@ -252,7 +252,7 @@ def buildPerformanceFrame():
     performance_frame = customtkinter.CTkFrame(root, width = 980, height = 720)
     performance_frame.pack()
     performance_frame.place(x = 300, y = 0)
-    title = customtkinter.CTkLabel(performance_frame, width = 980, height = 60, text = "Performance\t\t\t\t\t\t      ", font = customTextFont, fg_color = "grey")
+    title = customtkinter.CTkLabel(performance_frame, width = 980, height = 60, text = "Performance\t\t\t\t", font = customTextFont, fg_color = "grey")
     title.pack()
     title.place(x = 0, y = 0)
     display_performace_graph()
@@ -285,7 +285,7 @@ def submit():
             submitted.place(x = 390, y = 500)
 
 def reset_database():
-    os.system("xcopy .\Bin\hwtime.csv hwtime.csv /Y")
+    os.system("ditto ./Bin/hwtime.csv ./hwtime.csv")
 
 def buildOptionFrame():
     global colour_chosen
@@ -293,7 +293,7 @@ def buildOptionFrame():
     option_frame = customtkinter.CTkFrame(root, width = 980, height = 720)
     option_frame.pack()
     option_frame.place(x = 300, y = 0)
-    title = customtkinter.CTkLabel(option_frame, text = "Options\t\t\t\t\t\t\t", fg_color = "grey", font = customTextFont, width = 980, height = 60)
+    title = customtkinter.CTkLabel(option_frame, text = "Options\t\t\t\t\t", fg_color = "grey", font = customTextFont, width = 980, height = 60)
     title.pack()
     title.place(x = 0, y = 0)
     skin_label = customtkinter.CTkLabel(option_frame, text = "Skin:", font = customTextFontSmall, width = 50, height = 20)
@@ -306,7 +306,7 @@ def buildOptionFrame():
     skin_choice.place(x = 255, y = 275)
     colour_label = customtkinter.CTkLabel(option_frame, text = "Colour Scheme:", font = customTextFontSmall, width = 50, height = 20)
     colour_label.pack()
-    colour_label.place(x = 530, y = 280)
+    colour_label.place(x = 507, y = 280)
     colour_chosen = customtkinter.StringVar(option_frame)
     colour_chosen.set(search_colour)
     colour_choice = customtkinter.CTkOptionMenu(option_frame, width = 200, height = 40, variable = colour_chosen, values = colour_option_list, command = change_search_colour)
@@ -331,7 +331,7 @@ def build_left_menu_frame():
     left_menu_frame.place(x = 0, y = 0)
     icon = customtkinter.CTkLabel(left_menu_frame, text = "Homework Time", font = customIconFont)
     icon.pack()
-    icon.place(x = 13, y = 30)
+    icon.place(x = 0, y = 30)
 
     search_option = customtkinter.CTkButton(left_menu_frame, text = "Search", \
                                             font = customButtonFont, fg_color = customButtonColour, corner_radius = 0, width = 300, height = 70, command = buildSearchFrame)
@@ -352,14 +352,14 @@ def build_left_menu_frame():
     option_option.place(x = 0, y = 300)
     
     if skin == "Enabled":
-        skin_image = customtkinter.CTkImage(Image.open(".\Bin\Elements\Pattern.png"), size = (300, 500))
+        skin_image = customtkinter.CTkImage(Image.open("./Bin/Elements/Pattern.png"), size = (300, 500))
         skin_label = customtkinter.CTkLabel(master = left_menu_frame, image = skin_image, text = "")
         skin_label.pack()
         skin_label.place(x = 0, y = 370)
     
 
     if Developer_Mode == True:
-        reset_database_button = customtkinter.CTkButton(left_menu_frame, text = "Reset Database", width = 300, height = 30, fg_color = "red", font = customButtonFont, corner_radius = 0, command = reset_database)
+        reset_database_button = customtkinter.CTkButton(left_menu_frame, text = "Reset Database", width = 300, height = 25, fg_color = "red", font = customButtonFont, corner_radius = 0, command = reset_database)
         reset_database_button.pack()
         reset_database_button.place(x = 0, y = 650)
         developer_mode_label = customtkinter.CTkLabel(left_menu_frame, text = "Developer Mode", width = 300, height = 20, font = customTextFont)
