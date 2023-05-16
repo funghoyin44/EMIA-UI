@@ -8,7 +8,7 @@ a = Analysis(
     ['Modern UI.py'],
     pathex=[],
     binaries=[],
-    datas=[('/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/customtkinter', 'customtkinter')],
+    datas=[('C:\\Users\\Fung\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\customtkinter', 'customtkinter')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -35,16 +35,10 @@ exe = EXE(
     upx=True,
     upx_exclude=[],
     runtime_tmpdir=None,
-    console=False,
+    console=True,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-)
-app = BUNDLE(
-    exe,
-    name='Modern UI.app',
-    icon=None,
-    bundle_identifier=None,
 )
