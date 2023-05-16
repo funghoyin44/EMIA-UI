@@ -57,7 +57,7 @@ class User:
 course_list = []
 homework_list = []
 user_list = []
-skin_option_list = ["Teddy Bear"]
+skin_option_list = ["Disabled", "Enabled"]
 colour_option_list = ["Green-Red", "Green-Orange"]
 
 def initialize_data(user):

@@ -7,7 +7,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import os
 
 #Option#
-Developer_Mode = True
+Developer_Mode = False
 Bypass_Login = False
 
 
@@ -33,6 +33,7 @@ login = User
 success_login = False
 performance_graph_generated = False
 search_colour = colour_option_list[0]
+skin = skin_option_list[0]
 
 #Logic
 def search(code = None):
@@ -90,7 +91,7 @@ def display_homework_graph(homework):
     homework_graph = customtkinter.CTkLabel(homework_graph_frame, image = homework_graph_source, text = "")
     homework_graph.pack()
     homework_graph.place(x = 100, y = 150)
-    detail = customtkinter.CTkLabel(homework_graph_frame, text = "Suggested Time: {}\tMean: {}\tMin Time: {}\tMax Time: {}".format(homework.get_suggested_time(), homework.get_mean_time(), homework.get_min_time(), homework.get_max_time()), font = customTextFontSmall, width = 200, height = 40)
+    detail = customtkinter.CTkLabel(homework_graph_frame, text = "Suggested Time: {}\tMean Time: {}     \tMin Time: {}\tMax Time: {}".format(homework.get_suggested_time(), homework.get_mean_time(), homework.get_min_time(), homework.get_max_time()), font = customTextFontSmall, width = 200, height = 40)
     detail.pack()
     detail.place(x = 100, y = 650)
 
@@ -288,6 +289,7 @@ def reset_database():
 
 def buildOptionFrame():
     global colour_chosen
+    global skin_chosen
     option_frame = customtkinter.CTkFrame(root, width = 980, height = 720)
     option_frame.pack()
     option_frame.place(x = 300, y = 0)
@@ -298,8 +300,8 @@ def buildOptionFrame():
     skin_label.pack()
     skin_label.place(x = 200, y = 280)
     skin_chosen = customtkinter.StringVar(option_frame)
-    skin_chosen.set(skin_option_list[0])
-    skin_choice = customtkinter.CTkOptionMenu(option_frame, width = 200, height = 40, variable = skin_chosen, values = skin_option_list)
+    skin_chosen.set(skin)
+    skin_choice = customtkinter.CTkOptionMenu(option_frame, width = 200, height = 40, variable = skin_chosen, values = skin_option_list, command = change_skin)
     skin_choice.pack()
     skin_choice.place(x = 255, y = 275)
     colour_label = customtkinter.CTkLabel(option_frame, text = "Colour Scheme:", font = customTextFontSmall, width = 50, height = 20)
@@ -311,6 +313,11 @@ def buildOptionFrame():
     colour_choice.pack()
     colour_choice.place(x = 665, y = 275)
     
+def change_skin(arg):
+    global skin
+    skin = skin_chosen.get()
+    left_menu_frame.destroy()
+    build_left_menu_frame()
 
 def change_search_colour(arg):
     global search_colour
@@ -318,6 +325,7 @@ def change_search_colour(arg):
 
 #Left Menu
 def build_left_menu_frame():
+    global left_menu_frame
     left_menu_frame = customtkinter.CTkFrame(root, width = 300, height = 720, corner_radius = 0, fg_color= "grey2")
     left_menu_frame.pack()
     left_menu_frame.place(x = 0, y = 0)
@@ -343,12 +351,12 @@ def build_left_menu_frame():
     option_option.pack()
     option_option.place(x = 0, y = 300)
     
-    """
-    skin_image = customtkinter.CTkImage(Image.open(".\Bin\Elements\Pattern.png"), size = (300, 500))
-    skin = customtkinter.CTkLabel(master = left_menu_frame, image = skin_image, text = "")
-    skin.pack()
-    skin.place(x = 0, y = 370)
-    """
+    if skin == "Enabled":
+        skin_image = customtkinter.CTkImage(Image.open(".\Bin\Elements\Pattern.png"), size = (300, 500))
+        skin_label = customtkinter.CTkLabel(master = left_menu_frame, image = skin_image, text = "")
+        skin_label.pack()
+        skin_label.place(x = 0, y = 370)
+    
 
     if Developer_Mode == True:
         reset_database_button = customtkinter.CTkButton(left_menu_frame, text = "Reset Database", width = 300, height = 30, fg_color = "red", font = customButtonFont, corner_radius = 0, command = reset_database)
